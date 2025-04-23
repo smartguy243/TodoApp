@@ -51,7 +51,7 @@ fun TodoItemCard(
 ) {
     var isSwiped by remember { mutableStateOf(false) }
     val swipeState = rememberSwipeableState(initialValue = 0)
-    val anchors = mapOf(0f to 0, -200f to -1, 200f to 1)
+    val anchors = mapOf(0f to 0, -200f to -1, 100f to 1)
 
     Box(
         modifier = Modifier
@@ -67,14 +67,16 @@ fun TodoItemCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.LightGray),
+                .background(Color.LightGray.copy(alpha = 0.5f)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (swipeState.offset.value < -100) {
                 // Swipe de droite à gauche : Modifier et Supprimer
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                    .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = onEdit) {
@@ -84,10 +86,11 @@ fun TodoItemCard(
                         Icon(Icons.Default.Delete, contentDescription = "Supprimer", tint = Color.Red)
                     }
                 }
-            } else if (swipeState.offset.value > 100 && !todo.isCompleted) {
+            } else if (swipeState.offset.value > 50 && !todo.isCompleted) {
                 // Swipe de gauche à droite : Étoile (Favoris)
                 IconButton(onClick = {
                     onFavorite()
+                    isSwiped = !isSwiped
                     //swipeState.animateTo(0) // Referme automatiquement le swipe
                 }) {
                     Icon(
@@ -105,8 +108,9 @@ fun TodoItemCard(
                 .fillMaxWidth()
                 .padding(10.dp)
                 .offset { IntOffset(swipeState.offset.value.roundToInt(), 0) },
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            ) {
             Checkbox(
                 checked = todo.isCompleted,
                 onCheckedChange = onCheckedChange,
@@ -114,7 +118,8 @@ fun TodoItemCard(
                     checkedColor = Color.Red,
                     uncheckedColor = Color.Black,
                     checkmarkColor = Color.White
-                )
+                ),
+                modifier = Modifier.padding(bottom = 10.dp)
             )
             Text(
                 text = todo.title,
@@ -125,7 +130,7 @@ fun TodoItemCard(
                 ),
                 fontStyle = if (todo.isCompleted) FontStyle.Italic else null,
                 fontWeight = if (todo.isCompleted) FontWeight.W300 else null,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f).padding(bottom = 10.dp)
             )
             if (todo.isFavorite) {
                 IconButton(
