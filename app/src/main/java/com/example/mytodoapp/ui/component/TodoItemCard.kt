@@ -62,14 +62,14 @@ fun TodoItemCard(
             fontWeight = if (todo.isCompleted) FontWeight.W300 else null,
             modifier = Modifier.weight(1f)
         )
-
-        IconButton(onClick = onEdit) {
-            Icon(Icons.Default.Edit, contentDescription = "Modifier")
+        if (!todo.isCompleted) {
+            IconButton(onClick = onEdit) {
+                Icon(Icons.Default.Edit, contentDescription = "Modifier")
+            }
         }
-
-        IconButton(onClick = onDelete) {
-            Icon(Icons.Default.Delete, contentDescription = "Supprimer")
-        }
+         IconButton(onClick = onDelete) {
+                Icon(Icons.Default.Delete, contentDescription = "Supprimer")
+            }
     }
         HorizontalDivider(
             modifier = Modifier.padding(start = 50.dp),
