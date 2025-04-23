@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.mytodoapp"
-        minSdk = 24
+        minSdk = 25
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -56,6 +56,7 @@ dependencies {
     implementation (libs.converter.gson)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.compose.material)
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.hilt.android)

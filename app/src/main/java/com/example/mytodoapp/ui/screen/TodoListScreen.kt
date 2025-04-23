@@ -131,6 +131,9 @@ fun TodoListScreen(
                         onDelete = {
                             selectedTodo = todo
                             deleteDialogVisible = true
+                        },
+                        onFavorite = {
+                            viewModel.updateTodo(todo.copy(isFavorite = !todo.isFavorite))
                         }
                     )
                 }

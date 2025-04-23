@@ -9,5 +9,6 @@ data class TodoItem(
     @PrimaryKey
     var id: String = UUID.randomUUID().toString(),
     var title: String = "",
-    var isCompleted: Boolean = false
+    var isCompleted: Boolean = false,
+    var isFavorite: Boolean = false
 )
