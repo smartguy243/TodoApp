@@ -1,15 +1,22 @@
 package com.example.mytodoapp.ui.screen
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,15 +28,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mytodoapp.data.local.entity.TodoItem
 import com.example.mytodoapp.ui.component.AddTodoDialog
 import com.example.mytodoapp.ui.component.DeleteConfirmationDialog
 import com.example.mytodoapp.ui.component.EditTodoDialog
-import com.example.mytodoapp.ui.component.TodoItemRow
+import com.example.mytodoapp.ui.component.TodoItemCard
 import com.example.mytodoapp.viewModel.TodoViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoListScreen(
     viewModel: TodoViewModel = hiltViewModel()
@@ -40,17 +50,49 @@ fun TodoListScreen(
     var deleteDialogVisible by remember { mutableStateOf(false) }
     var selectedTodo by remember { mutableStateOf<TodoItem?>(null) }
 
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
     LaunchedEffect(Unit) {
         viewModel.getAllTodos()
     }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Gray,
+                    titleContentColor = Color.White,
+                ),
+                title = {
+                    Text(
+                        text = "Tasks",
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.W600,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis)
+                },
+                        scrollBehavior = scrollBehavior
+            )
+                 },
+
         floatingActionButton = {
-            FloatingActionButton(onClick = { showDialog = true }) {
+            FloatingActionButton(
+                onClick = { showDialog = true },
+                containerColor =  Color.DarkGray,
+                contentColor = Color.White
+            ) {
                 Icon(Icons.Default.Add, contentDescription = "Ajouter un Todo")
             }
-        }
+        },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = Color.Gray,
+                contentColor = Color.White
+            ) {}
+        },
+
     ) { padding ->
         if (todos.isEmpty()) {
             Box(
@@ -74,7 +116,10 @@ fun TodoListScreen(
                     .fillMaxSize()
             ) {
                 items(todos) { todo ->
-                    TodoItemRow(
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    TodoItemCard(
                         todo = todo,
                         onCheckedChange = { isChecked ->
                             viewModel.updateTodo(todo.copy(isCompleted = isChecked))

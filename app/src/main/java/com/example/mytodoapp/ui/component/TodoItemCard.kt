@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -26,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.example.mytodoapp.data.local.entity.TodoItem
 
 @Composable
-fun TodoItemRow(
+fun TodoItemCard(
     todo: TodoItem,
     onCheckedChange: (Boolean) -> Unit,
     onEdit: () -> Unit,
@@ -70,4 +71,7 @@ fun TodoItemRow(
             Icon(Icons.Default.Delete, contentDescription = "Supprimer")
         }
     }
+        HorizontalDivider(
+            modifier = Modifier.padding(start = 50.dp),
+            thickness = 1.dp)
 }
