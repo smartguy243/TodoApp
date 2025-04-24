@@ -80,13 +80,16 @@ fun TodoItemCard(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text("Modifier", color = Color.DarkGray) },
-                        onClick = {
-                            onEdit()
-                            expanded = false
-                        }
-                    )
+
+                    if (!todo.isCompleted) {
+                        DropdownMenuItem(
+                            text = { Text("Modifier", color = Color.DarkGray) },
+                            onClick = {
+                                onEdit()
+                                expanded = false
+                            }
+                        )
+                    }
                     DropdownMenuItem(
                         text = { Text("Supprimer", color = Color.Red) },
                         onClick = {
