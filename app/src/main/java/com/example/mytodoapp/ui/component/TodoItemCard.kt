@@ -67,11 +67,12 @@ fun TodoItemCard(
                 Icon(Icons.Default.Edit, contentDescription = "Modifier")
             }
         }
-         IconButton(onClick = onDelete) {
-                Icon(Icons.Default.Delete, contentDescription = "Supprimer")
-            }
+        IconButton(onClick = onDelete) {
+            Icon(Icons.Default.Delete, contentDescription = "Supprimer")
+        }
     }
-        HorizontalDivider(
-            modifier = Modifier.padding(start = 50.dp),
-            thickness = 1.dp)
+    HorizontalDivider(
+        modifier = Modifier.padding(start = 50.dp),
+        thickness = 1.dp
+    )
 }
