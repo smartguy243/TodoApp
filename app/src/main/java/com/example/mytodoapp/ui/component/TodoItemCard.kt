@@ -70,27 +70,31 @@ fun TodoItemCard(
             )
 
             var expanded by remember { mutableStateOf(false) }
-            IconButton(onClick = { expanded = true }) {
-                Icon(Icons.Default.MoreVert, contentDescription = "Menu")
-            }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text("Modifier", color = Color.DarkGray) },
-                    onClick = {
-                        onEdit()
-                        expanded = false
-                    }
-                )
-                DropdownMenuItem(
-                    text = { Text("Supprimer", color = Color.Red) },
-                    onClick = {
-                        onDelete()
-                        expanded = false
-                    }
-                )
+
+            Box {
+                IconButton(onClick = { expanded = true }) {
+                    Icon(Icons.Default.MoreVert, contentDescription = "Menu")
+                }
+
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Modifier", color = Color.DarkGray) },
+                        onClick = {
+                            onEdit()
+                            expanded = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Supprimer", color = Color.Red) },
+                        onClick = {
+                            onDelete()
+                            expanded = false
+                        }
+                    )
+                }
             }
         }
     }
