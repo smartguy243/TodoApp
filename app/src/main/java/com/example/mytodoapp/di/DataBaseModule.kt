@@ -23,9 +23,7 @@ object DataBaseModule {
             context,
             TodoDatabase::class.java,
             name = "todo_local_db"
-        )
-            .fallbackToDestructiveMigration()
-            .build()
+        ).build()
     }
 
     @Provides
