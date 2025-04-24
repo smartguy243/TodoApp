@@ -1,21 +1,25 @@
 package com.example.mytodoapp.ui.component
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,45 +37,61 @@ fun TodoItemCard(
     onEdit: () -> Unit,
     onDelete: () -> Unit
 ) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 15.dp),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = todo.isCompleted,
+                onCheckedChange = onCheckedChange,
+                colors = CheckboxDefaults.colors(
+                    checkedColor = Color.Red,
+                    uncheckedColor = Color.Black,
+                    checkmarkColor = Color.White
+                )
+            )
+            Text(
+                text = todo.title,
+                fontSize = 20.sp,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    textDecoration = if (todo.isCompleted) TextDecoration.LineThrough else null,
+                    color = if (todo.isCompleted) Color.Red else Color.Black
+                ),
+                fontStyle = if (todo.isCompleted) FontStyle.Italic else null,
+                fontWeight = if (todo.isCompleted) FontWeight.W300 else null,
+                modifier = Modifier.weight(1f)
+            )
 
-        Spacer(modifier = Modifier.width(5.dp))
-
-        Checkbox(
-            checked = todo.isCompleted,
-            onCheckedChange = onCheckedChange,
-            colors = CheckboxDefaults.colors(
-                checkedColor = Color.Red,
-                uncheckedColor = Color.Black,
-                checkmarkColor = Color.White)
-        )
-
-        Text(
-            text = todo.title,
-            fontSize = 20.sp,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                textDecoration = if (todo.isCompleted) TextDecoration.LineThrough else null,
-                color = if (todo.isCompleted) Color.Red else Color.Black
-            ),
-            fontStyle = if (todo.isCompleted) FontStyle.Italic else null,
-            fontWeight = if (todo.isCompleted) FontWeight.W300 else null,
-            modifier = Modifier.weight(1f)
-        )
-        if (!todo.isCompleted) {
-            IconButton(onClick = onEdit) {
-                Icon(Icons.Default.Edit, contentDescription = "Modifier")
+            var expanded by remember { mutableStateOf(false) }
+            IconButton(onClick = { expanded = true }) {
+                Icon(Icons.Default.MoreVert, contentDescription = "Menu")
+            }
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Modifier", color = Color.DarkGray) },
+                    onClick = {
+                        onEdit()
+                        expanded = false
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Supprimer", color = Color.Red) },
+                    onClick = {
+                        onDelete()
+                        expanded = false
+                    }
+                )
             }
         }
-         IconButton(onClick = onDelete) {
-                Icon(Icons.Default.Delete, contentDescription = "Supprimer")
-            }
     }
-        HorizontalDivider(
-            modifier = Modifier.padding(start = 50.dp),
-            thickness = 1.dp)
 }

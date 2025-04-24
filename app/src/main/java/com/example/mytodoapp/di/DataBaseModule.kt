@@ -1,10 +1,7 @@
 package com.example.mytodoapp.di
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.mytodoapp.data.local.TodoDatabase
 import com.example.mytodoapp.data.local.dao.TodoDao
 import com.example.mytodoapp.data.local.repository.TodoRepository
@@ -27,7 +24,7 @@ object DataBaseModule {
             TodoDatabase::class.java,
             name = "todo_local_db"
         )
-            //.fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration()
             .build()
     }
 

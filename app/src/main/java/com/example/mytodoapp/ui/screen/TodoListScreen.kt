@@ -115,6 +115,7 @@ fun TodoListScreen(
                     .padding(padding)
                     .fillMaxSize()
             ) {
+
                 items(todos) { todo ->
 
                     Spacer(modifier = Modifier.height(10.dp))
