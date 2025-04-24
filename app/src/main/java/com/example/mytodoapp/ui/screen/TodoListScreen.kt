@@ -110,14 +110,15 @@ fun TodoListScreen(
                 )
             }
         } else {
+
+            Spacer(modifier = Modifier.height(10.dp))
+
             LazyColumn(
                 modifier = Modifier
                     .padding(padding)
                     .fillMaxSize()
             ) {
                 items(todos) { todo ->
-
-                    Spacer(modifier = Modifier.height(10.dp))
 
                     TodoItemCard(
                         todo = todo,
@@ -131,9 +132,6 @@ fun TodoListScreen(
                         onDelete = {
                             selectedTodo = todo
                             deleteDialogVisible = true
-                        },
-                        onFavorite = {
-                            viewModel.updateTodo(todo.copy(isFavorite = !todo.isFavorite))
                         }
                     )
                 }
